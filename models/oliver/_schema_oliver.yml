@@ -1,0 +1,93 @@
+version: 2
+
+models:
+  - name: oliver_dim_customer
+    description: "Oliver customer dimension table containing demographic and contact attributes."
+    columns:
+      - name: cust_key
+        description: "Surrogate primary key for customer dimension."
+        tests:
+          - unique
+          - not_null
+      - name: customerid
+        description: "Natural identifier for customer."
+        tests:
+          - not_null
+
+  - name: oliver_dim_employee
+    description: "Oliver employee dimension table tracking store personnel and positions."
+    columns:
+      - name: employee_key
+        description: "Surrogate primary key for employee dimension."
+        tests:
+          - unique
+          - not_null
+      - name: employeeid
+        description: "Natural identifier for employee."
+        tests:
+          - not_null
+
+  - name: oliver_dim_product
+    description: "Oliver product dimension table for drinks, treats, and snacks."
+    columns:
+      - name: product_key
+        description: "Surrogate primary key for product dimension."
+        tests:
+          - unique
+          - not_null
+      - name: product_id
+        description: "Natural identifier for product."
+        tests:
+          - not_null
+
+  - name: oliver_dim_store
+    description: "Oliver store dimension table representing retail locations."
+    columns:
+      - name: store_key
+        description: "Surrogate primary key for store dimension."
+        tests:
+          - unique
+          - not_null
+      - name: store_id
+        description: "Natural identifier for store."
+        tests:
+          - not_null
+
+  - name: oliver_dim_date
+    description: "Calendar date dimension table generated via dbt_date."
+    columns:
+      - name: date_key
+        description: "Primary key for date dimension."
+        tests:
+          - unique
+          - not_null
+
+  - name: fact_sales
+    description: "Sales fact table recording point-of-sale line item transactions."
+    columns:
+      - name: cust_key
+        description: "Foreign key referencing oliver_dim_customer."
+        tests:
+          - not_null
+      - name: employee_key
+        description: "Foreign key referencing oliver_dim_employee."
+        tests:
+          - not_null
+      - name: store_key
+        description: "Foreign key referencing oliver_dim_store."
+        tests:
+          - not_null
+      - name: product_key
+        description: "Foreign key referencing oliver_dim_product."
+        tests:
+          - not_null
+      - name: date_key
+        description: "Foreign key referencing oliver_dim_date."
+        tests:
+          - not_null
+      - name: quantity
+        description: "Quantity of product sold in transaction line item."
+      - name: dollars_sold
+        description: "Total revenue calculated as quantity * unit_price."
+      - name: unit_price
+        description: "Per-unit selling price."
