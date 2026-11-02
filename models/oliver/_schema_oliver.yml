@@ -91,3 +91,36 @@ models:
         description: "Total revenue calculated as quantity * unit_price."
       - name: unit_price
         description: "Per-unit selling price."
+
+  - name: sales
+    description: "Semantic layer model joining fact_sales to dimensions for consumption and reporting."
+
+  - name: stg_employee_certifications
+    description: "Staging model parsing JSON certification records for employees."
+    columns:
+      - name: employee_id
+        description: "Identifier of the employee receiving the certification."
+      - name: certification_name
+        description: "Extracted name of the certification."
+      - name: certification_cost
+        description: "Extracted cost of the certification."
+      - name: certification_awarded_date
+        description: "Date the certification was awarded."
+
+  - name: fact_certification
+    description: |
+      Employee Certification Fact.
+      The grain of this table is one certification per employee on a given awarded date.
+    columns:
+      - name: date_key
+        description: "Foreign key referencing oliver_dim_date."
+        tests:
+          - not_null
+      - name: employee_key
+        description: "Foreign key referencing oliver_dim_employee."
+        tests:
+          - not_null
+      - name: certification_name
+        description: "Name of the credential or certification."
+      - name: certification_cost
+        description: "Fee or cost associated with acquiring the certification."
