@@ -69,6 +69,10 @@ models:
         description: "Foreign key referencing oliver_dim_customer."
         tests:
           - not_null
+          - relationships:
+              arguments:
+                to: ref('oliver_dim_customer')
+                field: cust_key
       - name: employee_key
         description: "Foreign key referencing oliver_dim_employee."
         tests:
@@ -102,6 +106,19 @@ models:
         description: "Identifier of the employee receiving the certification."
       - name: certification_name
         description: "Extracted name of the certification."
+        tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "Strategic Retail Operations"
+                  - "Workplace Safety"
+                  - "Cash Handling and Security"
+                  - "Inventory Management"
+                  - "Conflict Resolution"
+                  - "Customer Service Excellence"
+                  - "Product Knowledge Level 2"
+                  - "Leadership and Coaching"
+                  - "Point of Sale Operations"
       - name: certification_cost
         description: "Extracted cost of the certification."
       - name: certification_awarded_date
